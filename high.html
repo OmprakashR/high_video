@@ -35,7 +35,7 @@
 
                 mediaRecorder = new MediaRecorder(stream, {
                     mimeType: 'video/webm; codecs=vp9',
-                    videoBitsPerSecond: 10 * 1024 * 1024 // 10 Mbps bitrate for higher quality
+                    videoBitsPerSecond: 5 * 1024 * 1024 // 10 Mbps bitrate for higher quality
                 });
                 mediaRecorder.ondataavailable = handleDataAvailable;
                 mediaRecorder.onstop = handleStop;
