@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Quality Video Capture</title>
+</head>
+<body>
+    <video id="video" autoplay playsinline></video>
+    <button id="start">Start Recording</button>
+    <button id="stop">Stop Recording</button>
+    <a id="downloadLink" style="display: none;">Download Video</a>
+
+    <script>
+        const videoElement = document.getElementById('video');
+        const startButton = document.getElementById('start');
+        const stopButton = document.getElementById('stop');
+        const downloadLink = document.getElementById('downloadLink');
+
+        let mediaRecorder;
+        let recordedChunks = [];
+
+        async function startVideoCapture() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        width: { ideal: 1920 },
+                        height: { ideal: 1080 },
+                        frameRate: { ideal: 60 }
+                    },
+                    audio: true
+                });
+                videoElement.srcObject = stream;
+
+                mediaRecorder = new MediaRecorder(stream);
+                mediaRecorder.ondataavailable = handleDataAvailable;
+                mediaRecorder.onstop = handleStop;
+            } catch (error) {
+                console.error('Error accessing media devices.', error);
+            }
+        }
+
+        function handleDataAvailable(event) {
+            if (event.data.size > 0) {
+                recordedChunks.push(event.data);
+            }
+        }
+
+        function handleStop() {
+            const blob = new Blob(recordedChunks, { type: 'video/webm' });
+            const url = URL.createObjectURL(blob);
+            downloadLink.href = url;
+            downloadLink.download = 'recorded-video.webm';
+            downloadLink.style.display = 'block';
+        }
+
+        startButton.addEventListener('click', () => {
+            recordedChunks = [];
+            mediaRecorder.start();
+            console.log('Recording started');
+        });
+
+        stopButton.addEventListener('click', () => {
+            mediaRecorder.stop();
+            console.log('Recording stopped');
+        });
+
+        startVideoCapture();
+    </script>
+</body>
+</html>
