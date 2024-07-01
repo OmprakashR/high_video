@@ -29,7 +29,7 @@
                         frameRate: { ideal: 60 },
                         facingMode: { exact: 'environment' }
                     },
-                    audio: true
+                    audio: false
                 });
                 videoElement.srcObject = stream;
                 mediaRecorder = new MediaRecorder(stream, {
