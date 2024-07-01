@@ -24,15 +24,18 @@
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({
                     video: {
-                        width: { ideal: 1920 },
-                        height: { ideal: 1080 },
+                        width: { ideal: 3840  },
+                        height: { ideal: 2160  },
                         frameRate: { ideal: 60 },
                         // facingMode: { exact: 'environment' }
                     },
                     audio: true
                 });
                 videoElement.srcObject = stream;
-
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'video/webm; codecs=vp9',
+                    videoBitsPerSecond: 5 * 1024 * 1024 // 5 Mbps bitrate
+                });
                 mediaRecorder = new MediaRecorder(stream);
                 mediaRecorder.ondataavailable = handleDataAvailable;
                 mediaRecorder.onstop = handleStop;
