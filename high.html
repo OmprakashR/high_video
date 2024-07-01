@@ -26,7 +26,7 @@
                     video: {
                         width: { ideal: 1920 },
                         height: { ideal: 1080 },
-                        frameRate: { ideal: 60 },
+                        frameRate: { ideal: 30 },
                         facingMode: { exact: 'environment' }
                     },
                     audio:false
@@ -35,7 +35,7 @@
 
                 mediaRecorder = new MediaRecorder(stream, {
                     mimeType: 'video/webm; codecs=vp9',
-                    videoBitsPerSecond: 5 * 1024 * 1024 // 10 Mbps bitrate for higher quality
+                    videoBitsPerSecond: 10 * 1024 * 1024 // 10 Mbps bitrate for higher quality
                 });
                 mediaRecorder.ondataavailable = handleDataAvailable;
                 mediaRecorder.onstop = handleStop;
