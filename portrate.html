@@ -9,9 +9,39 @@
 <body>
     <video id="video" width="640" height="480" autoplay></video>
     <button id="capture">Capture Frame</button>
-    <canvas id="canvas" style="display:none;"></canvas>
-    <img id="screenshot" alt="Screenshot will appear here"/>
+    <img id="screenshot" alt="Screenshot will appear here" width="640" height="480"/>
 
-    <script src="app.js"></script>
+    <script>
+        // Get references to the video element and the image element
+        const video = document.getElementById('video');
+        const screenshot = document.getElementById('screenshot');
+        const captureButton = document.getElementById('capture');
+
+        // Ask for user permission to access the webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(error => {
+                console.error('Error accessing the webcam', error);
+            });
+
+        // Capture the current frame from the video when the button is clicked
+        captureButton.addEventListener('click', () => {
+            // Create a canvas element dynamically
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            
+            // Draw the current video frame onto the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Use html2canvas to capture the canvas as an image
+            html2canvas(canvas).then(capturedCanvas => {
+                screenshot.src = capturedCanvas.toDataURL('image/png');
+            });
+        });
+    </script>
 </body>
 </html>
