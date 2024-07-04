@@ -4,66 +4,26 @@
     <title>Portrait Mode Video Capture</title>
     <style>
         #video {
-            width: 100vw;
-    height: 100vh;
-    object-fit: cover;
-    display: block;
-    margin: 0 auto;
+            width: auto;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
         }
         #snapshot {
             display: block;
             margin: 20px auto;
             max-width: 100%;
         }
-        #capture{
-            position: absolute;
-            top:10px;
-            right: 10px;
-        }
     </style>
 </head>
 <body>
     <video id="video" autoplay></video>
-    <canvas id="canvas" style="display: none;"></canvas>
     <button id="capture">Capture</button>
     <img id="snapshot" alt="Snapshot">
 
- <script>
-    navigator.mediaDevices.getUserMedia({
-    video: {
-        width: { ideal: 720 },
-        height: { ideal: 1280 },
-        facingMode: "user", // use "environment" for the back camera
-        aspectRatio: { ideal: 9 / 16 }
-    }
-}).then(stream => {
-    const video = document.getElementById('video');
-    video.srcObject = stream;
-    video.play();
-
-    const canvas = document.getElementById('canvas');
-    const captureButton = document.getElementById('capture');
-    const snapshot = document.getElementById('snapshot');
-
-    captureButton.addEventListener('click', () => {
-        // Set canvas dimensions to match the video dimensions
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        // Draw the video frame on the canvas
-        const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        // Get the image data from the canvas
-        const imageData = canvas.toDataURL('image/png');
-
-        // Display the captured image
-        snapshot.src = imageData;
-    });
-}).catch(error => {
-    console.error('Error accessing media devices.', error);
-});
-
- </script>
+    <!-- Include html2canvas library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
