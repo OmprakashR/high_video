@@ -39,7 +39,10 @@
 
             // Use html2canvas to capture the canvas as an image
             html2canvas(canvas).then(capturedCanvas => {
+                // Convert the captured canvas to a data URL and set it as the src of the img element
                 screenshot.src = capturedCanvas.toDataURL('image/png');
+            }).catch(err => {
+                console.error('html2canvas error:', err);
             });
         });
     </script>
