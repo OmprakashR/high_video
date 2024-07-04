@@ -1,29 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Portrait Mode Video Capture</title>
-    <style>
-        #video {
-            width: auto;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto;
-        }
-        #snapshot {
-            display: block;
-            margin: 20px auto;
-            max-width: 100%;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture Video Frame</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
-    <video id="video" autoplay></video>
-    <button id="capture">Capture</button>
-    <img id="snapshot" alt="Snapshot">
+    <video id="video" width="640" height="480" autoplay></video>
+    <button id="capture">Capture Frame</button>
+    <canvas id="canvas" style="display:none;"></canvas>
+    <img id="screenshot" alt="Screenshot will appear here"/>
 
-    <!-- Include html2canvas library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>

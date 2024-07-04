@@ -1,29 +1,28 @@
-navigator.mediaDevices.getUserMedia({
-    video: {
-        width: { ideal: 720 },
-        height: { ideal: 1280 },
-        facingMode: "user", // use "environment" for the back camera
-        aspectRatio: { ideal: 9 / 16 }
-    }
-}).then(stream => {
-    const video = document.getElementById('video');
-    video.srcObject = stream;
-    video.play();
+// Get references to the video element and canvas
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const screenshot = document.getElementById('screenshot');
+const captureButton = document.getElementById('capture');
+const context = canvas.getContext('2d');
 
-    const captureButton = document.getElementById('capture');
-    const snapshot = document.getElementById('snapshot');
-
-    captureButton.addEventListener('click', () => {
-        html2canvas(video).then(canvas => {
-            // Get the image data from the canvas
-            const imageData = canvas.toDataURL('image/png');
-
-            // Display the captured image
-            snapshot.src = imageData;
-        }).catch(error => {
-            console.error('Error capturing video frame.', error);
-        });
+// Ask for user permission to access the webcam
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(error => {
+        console.error('Error accessing the webcam', error);
     });
-}).catch(error => {
-    console.error('Error accessing media devices.', error);
+
+// Capture the current frame from the video when the button is clicked
+captureButton.addEventListener('click', () => {
+    // Draw the current video frame onto the canvas
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Use html2canvas to capture the canvas as an image
+    html2canvas(canvas).then(capturedCanvas => {
+        screenshot.src = capturedCanvas.toDataURL('image/png');
+    });
 });
